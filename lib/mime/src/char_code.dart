@@ -1,0 +1,9 @@
+const int ht = 9;
+const int lf = 10;
+const int cr = 13;
+const int sp = 32;
+const int dash = 45;
+const int colon = 58;
+const int upperA = 65;
+const int upperZ = 90;
+const int lowerA = 97;
