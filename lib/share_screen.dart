@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:file_selector/file_selector.dart' hide XFile; // hides to test if share_plus exports XFile
+import 'package:file_selector/file_selector.dart' hide XFile;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart' hide XFile; // hides to test if share_plus exports XFile
+import 'package:image_picker/image_picker.dart' hide XFile;
 
 import 'cross_file/cross_file.dart';
 import 'image_previews.dart';
+import 'share/platform_interface/share_plus_platform.dart';
 import 'share/share_plus.dart';
-import 'share/share_plus_platform_interface.dart';
 
 class ShareScreen extends StatefulWidget {
   const ShareScreen({Key? key}) : super(key: key);
@@ -113,34 +113,34 @@ class ShareScreenState extends State<ShareScreen> {
                   );
                 },
               ),
-              const SizedBox(height: 16),
-              Builder(
-                builder: (BuildContext context) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                    ),
-                    onPressed: text.isEmpty && imagePaths.isEmpty ? null : () => _onShareWithResult(context),
-                    child: const Text('Share With Result'),
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              Builder(
-                builder: (BuildContext context) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                    ),
-                    onPressed: () {
-                      _onShareXFileFromAssets(context);
-                    },
-                    child: const Text('Share XFile from Assets'),
-                  );
-                },
-              ),
+              // const SizedBox(height: 16),
+              // Builder(
+              //   builder: (BuildContext context) {
+              //     return ElevatedButton(
+              //       style: ElevatedButton.styleFrom(
+              //         foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              //         backgroundColor: Theme.of(context).colorScheme.primary,
+              //       ),
+              //       onPressed: text.isEmpty && imagePaths.isEmpty ? null : () => _onShareWithResult(context),
+              //       child: const Text('Share With Result'),
+              //     );
+              //   },
+              // ),
+              // const SizedBox(height: 16),
+              // Builder(
+              //   builder: (BuildContext context) {
+              //     return ElevatedButton(
+              //       style: ElevatedButton.styleFrom(
+              //         foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              //         backgroundColor: Theme.of(context).colorScheme.primary,
+              //       ),
+              //       onPressed: () {
+              //         _onShareXFileFromAssets(context);
+              //       },
+              //       child: const Text('Share XFile from Assets'),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),

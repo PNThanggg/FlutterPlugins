@@ -8,15 +8,12 @@ import 'package:path_provider/path_provider.dart';
 import '../../cross_file/cross_file.dart';
 import '../../mime/mime.dart' show extensionFromMime, lookupMimeType;
 import '../../uuid/uuid.dart';
-import '../share_plus_platform_interface.dart';
+import '../platform_interface/share_plus_platform.dart';
 
-/// Plugin for summoning a platform share sheet.
 class MethodChannelShare extends SharePlatform {
-  /// [MethodChannel] used to communicate with the platform side.
   @visibleForTesting
   static const MethodChannel channel = MethodChannel('com.example.flutter_plugins/share');
 
-  /// Summons the platform's share sheet to share text.
   @override
   Future<void> share(
     String text, {
@@ -39,7 +36,6 @@ class MethodChannelShare extends SharePlatform {
     return channel.invokeMethod<void>('share', params);
   }
 
-  /// Summons the platform's share sheet to share multiple files.
   @override
   Future<void> shareFiles(
     List<String> paths, {
@@ -68,7 +64,6 @@ class MethodChannelShare extends SharePlatform {
     return channel.invokeMethod('shareFiles', params);
   }
 
-  /// Summons the platform's share sheet to share text and returns the result.
   @override
   Future<ShareResult> shareWithResult(
     String text, {
@@ -147,11 +142,6 @@ class MethodChannelShare extends SharePlatform {
     );
   }
 
-  /// if file doesn't contain path
-  /// then make new file in TemporaryDirectory and return with path
-  ///
-  /// the system will automatically delete files in this
-  /// TemporaryDirectory as disk space is needed elsewhere on the device
   Future<List<XFile>> _getFiles(List<XFile> files) async {
     if (files.any((element) => element.path.isEmpty)) {
       final newFiles = <XFile>[];

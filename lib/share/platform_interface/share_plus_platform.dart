@@ -12,13 +12,8 @@ class SharePlatform extends PlatformInterface {
 
   static SharePlatform _instance = MethodChannelShare();
 
-  /// The default instance of [SharePlatform] to use.
-  ///
-  /// Defaults to [MethodChannelShare].
   static SharePlatform get instance => _instance;
 
-  /// Platform-specific plugins should set this with their own platform-specific
-  /// class that extends [SharePlatform] when they register themselves.
   static set instance(SharePlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
@@ -106,19 +101,8 @@ class SharePlatform extends PlatformInterface {
   }
 }
 
-/// The result of a share to determine what action the
-/// user has taken.
-///
-/// [status] provides an easy way to determine how the
-/// share-sheet was handled by the user, while [raw] provides
-/// possible access to the action selected.
 class ShareResult {
   /// The raw return value from the share.
-  ///
-  /// Note that an empty string means the share-sheet was
-  /// dismissed without any action and the special value
-  /// `dev.fluttercommunity.plus/share/unavailable` points
-  /// to the current environment not supporting share results.
   final String raw;
 
   /// The action the user has taken
@@ -129,18 +113,12 @@ class ShareResult {
 
 /// How the user handled the share-sheet
 enum ShareResultStatus {
-  /// The user has selected an action
   success,
-
-  /// The user dismissed the share-sheet
   dismissed,
-
-  /// The status can not be determined
   unavailable,
 }
 
-/// Returned if the platform is not supported
 const _resultUnavailable = ShareResult(
-  'dev.fluttercommunity.plus/share/unavailable',
+  'com.example.flutter_plugins/share/unavailable',
   ShareResultStatus.unavailable,
 );

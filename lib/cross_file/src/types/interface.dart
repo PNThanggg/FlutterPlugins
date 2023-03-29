@@ -1,11 +1,7 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:typed_data';
-import 'package:meta/meta.dart';
 
 import './base.dart';
+import '../../../meta/meta.dart';
 
 // ignore_for_file: avoid_unused_constructor_parameters
 
@@ -30,8 +26,7 @@ class XFile extends XFileBase {
     DateTime? lastModified,
     @visibleForTesting CrossFileTestOverrides? overrides,
   }) : super(path) {
-    throw UnimplementedError(
-        'CrossFile is not available in your current platform.');
+    throw UnimplementedError('CrossFile is not available in your current platform.');
   }
 
   /// Construct a CrossFile object from its data
@@ -44,8 +39,7 @@ class XFile extends XFileBase {
     String? path,
     @visibleForTesting CrossFileTestOverrides? overrides,
   }) : super(path) {
-    throw UnimplementedError(
-        'CrossFile is not available in your current platform.');
+    throw UnimplementedError('CrossFile is not available in your current platform.');
   }
 }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_plugins/connectivity_screen.dart';
 import 'package:flutter_plugins/package_info_screen.dart';
 
+import 'network_info_screen.dart';
 import 'sensor_screen.dart';
 import 'share_screen.dart';
 
@@ -48,7 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const SensorScreen()));
                   },
                   child: const Text("Sensor")),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
               TextButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const PackageInfoScreen()));
@@ -58,7 +62,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ShareScreen()));
                   },
-                  child: const Text("Share"))
+                  child: const Text("Share")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ConnectivityScreen()));
+                  },
+                  child: const Text("Connectivity")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const NetworkInfoScreen()));
+                  },
+                  child: const Text("Network info"))
             ],
           ),
         ),

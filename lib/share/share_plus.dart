@@ -35,29 +35,6 @@ class Share {
     );
   }
 
-  /// Summons the platform's share sheet to share multiple files.
-  ///
-  /// Wraps the platform's native share dialog. Can share a file.
-  /// It uses the `ACTION_SEND` Intent on Android and `UIActivityViewController`
-  /// on iOS.
-  ///
-  /// The optional `mimeTypes` parameter can be used to specify MIME types for
-  /// the provided files.
-  /// Android supports all natively available MIME types (wildcards like image/*
-  /// are also supported) and it's considered best practice to avoid mixing
-  /// unrelated file types (eg. image/jpg & application/pdf). If MIME types are
-  /// mixed the plugin attempts to find the lowest common denominator. Even
-  /// if MIME types are supplied the receiving app decides if those are used
-  /// or handled.
-  /// On iOS image/jpg, image/jpeg and image/png are handled as images, while
-  /// every other MIME type is considered a normal file.
-  ///
-  /// The optional `sharePositionOrigin` parameter can be used to specify a global
-  /// origin rect for the share sheet to popover from on iPads and Macs. It has no effect
-  /// on other devices.
-  ///
-  /// May throw [PlatformException] or [FormatException]
-  /// from [MethodChannel].
   @Deprecated("Use shareXFiles instead.")
   static Future<void> shareFiles(
     List<String> paths, {
@@ -77,23 +54,6 @@ class Share {
     );
   }
 
-  /// Behaves exactly like [share] while providing feedback on how the user
-  /// interacted with the share-sheet. Until the returned future is completed,
-  /// any other call to any share method that returns a result _might_ result in
-  /// a [PlatformException] (on Android).
-  ///
-  /// Because IOS, Android and macOS provide different feedback on share-sheet
-  /// interaction, a result on IOS will be more specific than on Android or macOS.
-  /// While on IOS the selected action can inform its caller that it was completed
-  /// or dismissed midway (_actions are free to return whatever they want_),
-  /// Android and macOS only record if the user selected an action or outright
-  /// dismissed the share-sheet. It is not guaranteed that the user actually shared
-  /// something.
-  ///
-  /// **Currently only implemented on IOS, Android and macOS.**
-  ///
-  /// Will gracefully fall back to the non result variant if not implemented
-  /// for the current environment and return [ShareResult.unavailable].
   static Future<ShareResult> shareWithResult(
     String text, {
     String? subject,
@@ -107,23 +67,6 @@ class Share {
     );
   }
 
-  /// Behaves exactly like [shareFiles] while providing feedback on how the user
-  /// interacted with the share-sheet. Until the returned future is completed,
-  /// any other call to any share method that returns a result _might_ result in
-  /// a [PlatformException] (on Android).
-  ///
-  /// Because IOS, Android and macOS provide different feedback on share-sheet
-  /// interaction, a result on IOS will be more specific than on Android or macOS.
-  /// While on IOS the selected action can inform its caller that it was completed
-  /// or dismissed midway (_actions are free to return whatever they want_),
-  /// Android and macOS only record if the user selected an action or outright
-  /// dismissed the share-sheet. It is not guaranteed that the user actually shared
-  /// something.
-  ///
-  /// **Currently only implemented on IOS, Android and macOS.**
-  ///
-  /// Will gracefully fall back to the non result variant if not implemented
-  /// for the current environment and return [ShareResult.unavailable].
   @Deprecated("Use shareXFiles instead.")
   static Future<ShareResult> shareFilesWithResult(
     List<String> paths, {
@@ -143,27 +86,6 @@ class Share {
     );
   }
 
-  /// Summons the platform's share sheet to share multiple files.
-  ///
-  /// Wraps the platform's native share dialog. Can share a file.
-  /// It uses the `ACTION_SEND` Intent on Android and `UIActivityViewController`
-  /// on iOS.
-  ///
-  /// Android supports all natively available MIME types (wildcards like image/*
-  /// are also supported) and it's considered best practice to avoid mixing
-  /// unrelated file types (eg. image/jpg & application/pdf). If MIME types are
-  /// mixed the plugin attempts to find the lowest common denominator. Even
-  /// if MIME types are supplied the receiving app decides if those are used
-  /// or handled.
-  /// On iOS image/jpg, image/jpeg and image/png are handled as images, while
-  /// every other MIME type is considered a normal file.
-  ///
-  /// The optional `sharePositionOrigin` parameter can be used to specify a global
-  /// origin rect for the share sheet to popover from on iPads and Macs. It has no effect
-  /// on other devices.
-  ///
-  /// May throw [PlatformException] or [FormatException]
-  /// from [MethodChannel].
   static Future<ShareResult> shareXFiles(
     List<XFile> files, {
     String? subject,

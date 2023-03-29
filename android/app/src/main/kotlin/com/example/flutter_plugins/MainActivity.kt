@@ -5,7 +5,12 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorManager
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import android.os.Build
+import com.example.flutter_plugins.connectovity.Connectivity
+import com.example.flutter_plugins.connectovity.ConnectivityBroadcastReceiver
+import com.example.flutter_plugins.network_info.NetworkInfo
 import com.example.flutter_plugins.sensor.StreamHandlerImpl
 import com.example.flutter_plugins.share.Share
 import com.example.flutter_plugins.share.ShareSuccessManager
@@ -18,6 +23,7 @@ import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
+
 class MainActivity : FlutterActivity() {
     private lateinit var sensorAccelerometerChannel: EventChannel
     private lateinit var sensorUserAccelChannel: EventChannel
@@ -29,6 +35,17 @@ class MainActivity : FlutterActivity() {
     private lateinit var gyroScopeStreamHandler: StreamHandlerImpl
     private lateinit var magnetometerStreamHandler: StreamHandlerImpl
 
+    private var packageInfoMethodChannel: MethodChannel? = null
+
+    private var shareMethodChannel: MethodChannel? = null
+    private lateinit var share: Share
+    private lateinit var manager: ShareSuccessManager
+
+    private var connectivityMethodChannel: MethodChannel? = null
+    private lateinit var connectivityEventChannel: EventChannel
+
+    private var networkInfoMethodChannel: MethodChannel? = null
+
     companion object {
         private const val SENSOR_ACCELEROMETER_EVENT_CHANNEL = "com.example.flutter_plugins/sensors/accelerometer"
         private const val SENSOR_GYROSCOPE_EVENT_CHANNEL = "com.example.flutter_plugins/sensors/gyroscope"
@@ -37,14 +54,13 @@ class MainActivity : FlutterActivity() {
 
         private const val PACKAGE_INFO_CHANNEL_NAME = "com.example.flutter_plugins/package_info"
 
-        private const val SHARE_CHANNEL = "com.example.flutter_plugins/share"
+        private const val SHARE_CHANNEL_NAME = "com.example.flutter_plugins/share"
+
+        private const val CONNECTIVITY_CHANNEL_NAME = "com.example.flutter_plugins/connectivity"
+        private const val CONNECTIVITY_EVENT_CHANNEL = "com.example.flutter_plugins/connectivity_status"
+
+        private const val NETWORK_INFO_CHANNEL_NAME = "com.example.flutter_plugins/network_info"
     }
-
-    private var packageInfoMethodChannel: MethodChannel? = null
-
-    private var shareMethodChannel: MethodChannel? = null
-    private lateinit var share: Share
-    private lateinit var manager: ShareSuccessManager
 
     @Suppress("deprecation")
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -119,7 +135,7 @@ class MainActivity : FlutterActivity() {
         // Share plugin
         shareMethodChannel = MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger,
-            SHARE_CHANNEL
+            SHARE_CHANNEL_NAME
         )
 
         manager = ShareSuccessManager()
@@ -177,6 +193,58 @@ class MainActivity : FlutterActivity() {
                         result.error("Share failed", e.message, null)
                     }
                 }
+
+                else -> result.notImplemented()
+            }
+        }
+
+        var connectivityManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        // connectivity plugin
+        val connectivity = Connectivity(connectivityManager)
+        val receiver = ConnectivityBroadcastReceiver(context, connectivity)
+
+        connectivityMethodChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            CONNECTIVITY_CHANNEL_NAME
+        )
+        connectivityMethodChannel!!.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "check" -> {
+                    result.success(connectivity.getNetworkType())
+                }
+
+                else -> result.notImplemented()
+            }
+        }
+
+        connectivityEventChannel = EventChannel(flutterEngine.dartExecutor.binaryMessenger, CONNECTIVITY_EVENT_CHANNEL)
+        connectivityEventChannel.setStreamHandler(receiver)
+
+
+        // network info plugin
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            connectivityManager = context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        }
+
+        val networkInfo = NetworkInfo(wifiManager, connectivityManager)
+
+        networkInfoMethodChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            NETWORK_INFO_CHANNEL_NAME
+        )
+        networkInfoMethodChannel!!.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "wifiName" -> result.success(networkInfo.getWifiName())
+                "wifiBSSID" -> result.success(networkInfo.getWifiBSSID())
+                "wifiIPAddress" -> result.success(networkInfo.getWifiIPAddress())
+                "wifiBroadcast" -> result.success(networkInfo.getBroadcastIP())
+                "wifiSubmask" -> result.success(networkInfo.getWifiSubnetMask())
+                "wifiGatewayAddress" -> result.success(networkInfo.getGatewayIPAddress())
+                "wifiIPv6Address" -> result.success(networkInfo.getIpV6())
+
                 else -> result.notImplemented()
             }
         }
@@ -265,6 +333,10 @@ class MainActivity : FlutterActivity() {
         packageInfoMethodChannel!!.setMethodCallHandler(null)
 
         shareMethodChannel!!.setMethodCallHandler(null)
+
+        connectivityMethodChannel!!.setMethodCallHandler(null)
+
+        networkInfoMethodChannel!!.setMethodCallHandler(null)
     }
 
     @Throws(IllegalArgumentException::class)

@@ -1,5 +1,7 @@
 part of sprintf;
 
+// ignore_for_file: non_constant_identifier_names
+
 class FloatFormatter extends Formatter {
   static final _number_rx = RegExp(r'^[\-\+]?(\d+)\.(\d+)$');
   static final _expo_rx = RegExp(r'^[\-\+]?(\d)\.(\d+)e([\-\+]?\d+)$');

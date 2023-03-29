@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+import 'meta/meta.dart';
 
 abstract class PlatformInterface {
   PlatformInterface({required Object token}) {

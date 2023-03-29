@@ -1,12 +1,7 @@
-// Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'dart:collection';
 import 'dart:typed_data';
 
-import 'package:collection/collection.dart';
-
+import '../../collection/collection.dart';
 import 'typed_buffer.dart';
 
 /// The shared superclass of all the typed queue subclasses.
@@ -192,8 +187,7 @@ abstract class _TypedQueue<E, L extends List<E>> with ListMixin<E> {
           //       [  |===========| sourceEnd                      ]
           // sourceStart
           _table.setRange(targetStart, _table.length, _table, sourceStart);
-          _table.setRange(0, targetEnd, _table,
-              sourceStart + (_table.length - targetStart));
+          _table.setRange(0, targetEnd, _table, sourceStart + (_table.length - targetStart));
         } else {
           //                                               targetEnd
           // [                         targetStart |===========|  ]
@@ -210,8 +204,7 @@ abstract class _TypedQueue<E, L extends List<E>> with ListMixin<E> {
           // [=====| targetEnd                 targetStart |======]
           // [                         sourceStart |===========|  ]
           //                                             sourceEnd
-          _table.setRange(0, targetEnd, _table,
-              sourceStart + (_table.length - targetStart));
+          _table.setRange(0, targetEnd, _table, sourceStart + (_table.length - targetStart));
           _table.setRange(targetStart, _table.length, _table, sourceStart);
         } else {
           // targetStart
@@ -230,8 +223,7 @@ abstract class _TypedQueue<E, L extends List<E>> with ListMixin<E> {
       // If the range isn't contiguous and [iterable] is actually a [List] (but
       // not this queue), set it with two underlying [setRange] calls.
       _table.setRange(targetStart, _table.length, iterable, skipCount);
-      _table.setRange(
-          0, targetEnd, iterable, skipCount + (_table.length - targetStart));
+      _table.setRange(0, targetEnd, iterable, skipCount + (_table.length - targetStart));
     } else {
       // If [iterable] isn't a [List], we don't want to make two different
       // [setRange] calls because it could materialize a lazy iterable twice.
@@ -343,8 +335,7 @@ abstract class _IntQueue<L extends List<int>> extends _TypedQueue<int, L> {
   int get _defaultValue => 0;
 }
 
-abstract class _FloatQueue<L extends List<double>>
-    extends _TypedQueue<double, L> {
+abstract class _FloatQueue<L extends List<double>> extends _TypedQueue<double, L> {
   _FloatQueue(L queue) : super(queue);
 
   @override
@@ -365,11 +356,11 @@ class Uint8Queue extends _IntQueue<Uint8List> implements QueueList<int> {
       : super(Uint8List(_chooseRealInitialCapacity(initialCapacity)));
 
   /// Creates a [Uint8Queue] with the same length and contents as [elements].
-  factory Uint8Queue.fromList(List<int> elements) =>
-      Uint8Queue(elements.length)..addAll(elements);
+  factory Uint8Queue.fromList(List<int> elements) => Uint8Queue(elements.length)..addAll(elements);
 
   @override
   Uint8List _createList(int size) => Uint8List(size);
+
   @override
   Uint8Buffer _createBuffer(int size) => Uint8Buffer(size);
 }
@@ -385,15 +376,14 @@ class Uint8Queue extends _IntQueue<Uint8List> implements QueueList<int> {
 class Int8Queue extends _IntQueue<Int8List> implements QueueList<int> {
   /// Creates an empty [Int8Queue] with the given initial internal capacity (in
   /// elements).
-  Int8Queue([int? initialCapacity])
-      : super(Int8List(_chooseRealInitialCapacity(initialCapacity)));
+  Int8Queue([int? initialCapacity]) : super(Int8List(_chooseRealInitialCapacity(initialCapacity)));
 
   /// Creates a [Int8Queue] with the same length and contents as [elements].
-  factory Int8Queue.fromList(List<int> elements) =>
-      Int8Queue(elements.length)..addAll(elements);
+  factory Int8Queue.fromList(List<int> elements) => Int8Queue(elements.length)..addAll(elements);
 
   @override
   Int8List _createList(int size) => Int8List(size);
+
   @override
   Int8Buffer _createBuffer(int size) => Int8Buffer(size);
 }
@@ -406,8 +396,7 @@ class Int8Queue extends _IntQueue<Int8List> implements QueueList<int> {
 /// Integers stored in this are clamped to an unsigned eight bit value. That is,
 /// all values below zero are stored as zero and all values above 255 are stored
 /// as 255.
-class Uint8ClampedQueue extends _IntQueue<Uint8ClampedList>
-    implements QueueList<int> {
+class Uint8ClampedQueue extends _IntQueue<Uint8ClampedList> implements QueueList<int> {
   /// Creates an empty [Uint8ClampedQueue] with the given initial internal
   /// capacity (in elements).
   Uint8ClampedQueue([int? initialCapacity])
@@ -420,6 +409,7 @@ class Uint8ClampedQueue extends _IntQueue<Uint8ClampedList>
 
   @override
   Uint8ClampedList _createList(int size) => Uint8ClampedList(size);
+
   @override
   Uint8ClampedBuffer _createBuffer(int size) => Uint8ClampedBuffer(size);
 }
@@ -443,6 +433,7 @@ class Uint16Queue extends _IntQueue<Uint16List> implements QueueList<int> {
 
   @override
   Uint16List _createList(int size) => Uint16List(size);
+
   @override
   Uint16Buffer _createBuffer(int size) => Uint16Buffer(size);
 }
@@ -462,11 +453,11 @@ class Int16Queue extends _IntQueue<Int16List> implements QueueList<int> {
       : super(Int16List(_chooseRealInitialCapacity(initialCapacity)));
 
   /// Creates a [Int16Queue] with the same length and contents as [elements].
-  factory Int16Queue.fromList(List<int> elements) =>
-      Int16Queue(elements.length)..addAll(elements);
+  factory Int16Queue.fromList(List<int> elements) => Int16Queue(elements.length)..addAll(elements);
 
   @override
   Int16List _createList(int size) => Int16List(size);
+
   @override
   Int16Buffer _createBuffer(int size) => Int16Buffer(size);
 }
@@ -490,6 +481,7 @@ class Uint32Queue extends _IntQueue<Uint32List> implements QueueList<int> {
 
   @override
   Uint32List _createList(int size) => Uint32List(size);
+
   @override
   Uint32Buffer _createBuffer(int size) => Uint32Buffer(size);
 }
@@ -509,11 +501,11 @@ class Int32Queue extends _IntQueue<Int32List> implements QueueList<int> {
       : super(Int32List(_chooseRealInitialCapacity(initialCapacity)));
 
   /// Creates a [Int32Queue] with the same length and contents as [elements].
-  factory Int32Queue.fromList(List<int> elements) =>
-      Int32Queue(elements.length)..addAll(elements);
+  factory Int32Queue.fromList(List<int> elements) => Int32Queue(elements.length)..addAll(elements);
 
   @override
   Int32List _createList(int size) => Int32List(size);
+
   @override
   Int32Buffer _createBuffer(int size) => Int32Buffer(size);
 }
@@ -538,6 +530,7 @@ class Uint64Queue extends _IntQueue<Uint64List> implements QueueList<int> {
 
   @override
   Uint64List _createList(int size) => Uint64List(size);
+
   @override
   Uint64Buffer _createBuffer(int size) => Uint64Buffer(size);
 }
@@ -557,11 +550,11 @@ class Int64Queue extends _IntQueue<Int64List> implements QueueList<int> {
       : super(Int64List(_chooseRealInitialCapacity(initialCapacity)));
 
   /// Creates a [Int64Queue] with the same length and contents as [elements].
-  factory Int64Queue.fromList(List<int> elements) =>
-      Int64Queue(elements.length)..addAll(elements);
+  factory Int64Queue.fromList(List<int> elements) => Int64Queue(elements.length)..addAll(elements);
 
   @override
   Int64List _createList(int size) => Int64List(size);
+
   @override
   Int64Buffer _createBuffer(int size) => Int64Buffer(size);
 }
@@ -574,8 +567,7 @@ class Int64Queue extends _IntQueue<Int64List> implements QueueList<int> {
 ///
 /// Doubles stored in this are converted to the nearest single-precision value.
 /// Values read are converted to a double value with the same value.
-class Float32Queue extends _FloatQueue<Float32List>
-    implements QueueList<double> {
+class Float32Queue extends _FloatQueue<Float32List> implements QueueList<double> {
   /// Creates an empty [Float32Queue] with the given initial internal capacity
   /// (in elements).
   Float32Queue([int? initialCapacity])
@@ -587,6 +579,7 @@ class Float32Queue extends _FloatQueue<Float32List>
 
   @override
   Float32List _createList(int size) => Float32List(size);
+
   @override
   Float32Buffer _createBuffer(int size) => Float32Buffer(size);
 }
@@ -596,8 +589,7 @@ class Float32Queue extends _FloatQueue<Float32List>
 ///
 /// For long queues, this implementation can be considerably more space- and
 /// time-efficient than a default [QueueList] implementation.
-class Float64Queue extends _FloatQueue<Float64List>
-    implements QueueList<double> {
+class Float64Queue extends _FloatQueue<Float64List> implements QueueList<double> {
   /// Creates an empty [Float64Queue] with the given initial internal capacity
   /// (in elements).
   Float64Queue([int? initialCapacity])
@@ -609,6 +601,7 @@ class Float64Queue extends _FloatQueue<Float64List>
 
   @override
   Float64List _createList(int size) => Float64List(size);
+
   @override
   Float64Buffer _createBuffer(int size) => Float64Buffer(size);
 }
@@ -617,8 +610,7 @@ class Float64Queue extends _FloatQueue<Float64List>
 ///
 /// For long queues, this implementation can be considerably more space- and
 /// time-efficient than a default [QueueList] implementation.
-class Int32x4Queue extends _TypedQueue<Int32x4, Int32x4List>
-    implements QueueList<Int32x4> {
+class Int32x4Queue extends _TypedQueue<Int32x4, Int32x4List> implements QueueList<Int32x4> {
   static final Int32x4 _zero = Int32x4(0, 0, 0, 0);
 
   /// Creates an empty [Int32x4Queue] with the given initial internal capacity
@@ -632,8 +624,10 @@ class Int32x4Queue extends _TypedQueue<Int32x4, Int32x4List>
 
   @override
   Int32x4List _createList(int size) => Int32x4List(size);
+
   @override
   Int32x4Buffer _createBuffer(int size) => Int32x4Buffer(size);
+
   @override
   Int32x4 get _defaultValue => _zero;
 }
@@ -642,8 +636,7 @@ class Int32x4Queue extends _TypedQueue<Int32x4, Int32x4List>
 ///
 /// For long queues, this implementation can be considerably more space- and
 /// time-efficient than a default [QueueList] implementation.
-class Float32x4Queue extends _TypedQueue<Float32x4, Float32x4List>
-    implements QueueList<Float32x4> {
+class Float32x4Queue extends _TypedQueue<Float32x4, Float32x4List> implements QueueList<Float32x4> {
   /// Creates an empty [Float32x4Queue] with the given initial internal capacity (in
   /// elements).
   Float32x4Queue([int? initialCapacity])
@@ -655,8 +648,10 @@ class Float32x4Queue extends _TypedQueue<Float32x4, Float32x4List>
 
   @override
   Float32x4List _createList(int size) => Float32x4List(size);
+
   @override
   Float32x4Buffer _createBuffer(int size) => Float32x4Buffer(size);
+
   @override
   Float32x4 get _defaultValue => Float32x4.zero();
 }
