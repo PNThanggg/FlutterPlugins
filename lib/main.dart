@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_plugins/connectivity_screen.dart';
-import 'package:flutter_plugins/package_info_screen.dart';
 
+import 'battery_screen.dart';
+import 'connectivity_screen.dart';
+import 'device_info_screen.dart';
 import 'network_info_screen.dart';
+import 'package_info_screen.dart';
 import 'sensor_screen.dart';
 import 'share_screen.dart';
 
@@ -47,7 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SensorScreen()));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const SensorScreen()));
                   },
                   child: const Text("Sensor")),
               SizedBox(
@@ -55,24 +58,40 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PackageInfoScreen()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const PackageInfoScreen()));
                   },
                   child: const Text("Package Info")),
               TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ShareScreen()));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const ShareScreen()));
                   },
                   child: const Text("Share")),
               TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ConnectivityScreen()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const ConnectivityScreen()));
                   },
                   child: const Text("Connectivity")),
               TextButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const NetworkInfoScreen()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const NetworkInfoScreen()));
                   },
-                  child: const Text("Network info"))
+                  child: const Text("Network info")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const DeviceInfoScree()));
+                  },
+                  child: const Text("Device info")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const BatteryScreen()));
+                  },
+                  child: const Text("Battery")),
             ],
           ),
         ),

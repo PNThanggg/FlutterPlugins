@@ -10,7 +10,6 @@ internal class NetworkInfo(
     private val wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager? = null
 ) {
-
     // Using deprecated `connectionInfo` call here to be able to get info on demand
     @Suppress("DEPRECATION")
     private val wifiInfo: WifiInfo
