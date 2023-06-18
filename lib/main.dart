@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'battery_screen.dart';
 import 'connectivity_screen.dart';
 import 'device_info_screen.dart';
+import 'native_timezone_screen.dart';
 import 'network_info_screen.dart';
 import 'package_info_screen.dart';
 import 'sensor_screen.dart';
 import 'share_screen.dart';
+import 'sms_screen.dart';
+import 'toast_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -92,6 +95,24 @@ class _MyHomePageState extends State<MyHomePage> {
                         context, MaterialPageRoute(builder: (context) => const BatteryScreen()));
                   },
                   child: const Text("Battery")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const ToastScreen()));
+                  },
+                  child: const Text("Toast")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const NativeTimezoneScreen()));
+                  },
+                  child: const Text("Native timezone")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const SmsScreen()));
+                  },
+                  child: const Text("Sms")),
             ],
           ),
         ),

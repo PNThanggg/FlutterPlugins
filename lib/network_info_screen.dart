@@ -131,9 +131,10 @@ class _NetworkInfoScreenState extends State<NetworkInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('NetworkInfoPlus example'),
+        title: const Text('Network Info'),
       ),
-      body: Center(child: Column(
+      body: Center(
+          child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(

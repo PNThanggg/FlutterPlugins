@@ -9,6 +9,11 @@ internal class ShareSuccessManager : PluginRegistry.ActivityResultListener {
     private var callback: MethodChannel.Result? = null
     private var isCalledBack: AtomicBoolean = AtomicBoolean(true)
 
+    companion object {
+        const val ACTIVITY_CODE = 0x5873
+        const val RESULT_UNAVAILABLE = "com.example.flutter_plugins/share/unavailable"
+    }
+
     fun setCallback(callback: MethodChannel.Result): Boolean {
         return if (isCalledBack.compareAndSet(true, false)) {
             // Prepare all state for new share
@@ -54,14 +59,5 @@ internal class ShareSuccessManager : PluginRegistry.ActivityResultListener {
         } else {
             false
         }
-    }
-
-    /**
-     * Companion object holds constants used throughout the plugin when attempting to return
-     * the share result.
-     */
-    companion object {
-        const val ACTIVITY_CODE = 0x5873
-        const val RESULT_UNAVAILABLE = "com.example.flutter_plugins/share/unavailable"
     }
 }

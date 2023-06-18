@@ -70,40 +70,37 @@ class _DeviceInfoScreeState extends State<DeviceInfoScree> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Android Device Info'),
-        ),
-        body: ListView(
-          children: _deviceData.keys.map(
-            (String property) {
-              return Row(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      property,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Android Device Info'),
+      ),
+      body: ListView(
+        children: _deviceData.keys.map(
+          (String property) {
+            return Row(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    property,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Expanded(
-                      child: Container(
-                    padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                    child: Text(
-                      '${_deviceData[property]}',
-                      maxLines: 10,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )),
-                ],
-              );
-            },
-          ).toList(),
-        ),
+                ),
+                Expanded(
+                    child: Container(
+                  padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+                  child: Text(
+                    '${_deviceData[property]}',
+                    maxLines: 10,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )),
+              ],
+            );
+          },
+        ).toList(),
       ),
     );
   }

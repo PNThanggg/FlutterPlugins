@@ -4,21 +4,26 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import io.flutter.embedding.android.FlutterActivity
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.EventSink
 
 
-class ConnectivityBroadcastReceiver(private val context: Context, private val connectivity: Connectivity) : BroadcastReceiver(), EventChannel.StreamHandler {
+class ConnectivityBroadcastReceiver(private val context: Context) : BroadcastReceiver(), EventChannel.StreamHandler {
     private var events: EventSink? = null
     private val mainHandler: Handler = Handler(Looper.getMainLooper())
     private var networkCallback: NetworkCallback? = null
 
-    val CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE"
+    private val CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE"
+
+    private var connectivityManager = context.getSystemService(FlutterActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private var connectivity = Connectivity(connectivityManager)
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (events != null) {
