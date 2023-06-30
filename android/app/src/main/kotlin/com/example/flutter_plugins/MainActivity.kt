@@ -12,6 +12,7 @@ import com.example.flutter_plugins.connectovity.ConnectivityMethodCallHandler
 import com.example.flutter_plugins.device_info.DeviceInfoMethodCallHandler
 import com.example.flutter_plugins.native_timezone.NativeTimezoneMethodCallHandler
 import com.example.flutter_plugins.network_info.NetworkInfoMethodCallHandler
+import com.example.flutter_plugins.open_setting.OpenSettingMethodCallHandler
 import com.example.flutter_plugins.package_info.PackageInfoMethodCallHandler
 import com.example.flutter_plugins.sensor.SensorStreamHandlerImpl
 import com.example.flutter_plugins.share.ShareMethodCallHandler
@@ -58,6 +59,8 @@ class MainActivity : FlutterActivity() {
 
     private var sharedPreferencesMethodChannel: MethodChannel? = null
 
+    private var openSettingMethodChannel: MethodChannel? = null
+
     companion object {
         private const val SENSOR_ACCELEROMETER_EVENT_CHANNEL =
             "com.example.flutter_plugins/sensors/accelerometer"
@@ -92,6 +95,8 @@ class MainActivity : FlutterActivity() {
 
         private const val SHARED_PREFERENCES_CHANNEL_NAME =
             "com.example.flutter_plugins/shared_preferences"
+
+        private const val OPEN_SETTING_CHANNEL_NAME = "open_settings"
     }
 
     override fun getTransparencyMode(): TransparencyMode {
@@ -245,9 +250,18 @@ class MainActivity : FlutterActivity() {
         )
         sharedPreferencesMethodChannel!!.setMethodCallHandler(
             SharedPreferencesMethodCallHandler(
-                context
+                context = context
             )
         )
+
+        // Open setting
+        openSettingMethodChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            OPEN_SETTING_CHANNEL_NAME
+        )
+        openSettingMethodChannel!!.setMethodCallHandler(OpenSettingMethodCallHandler(
+            context = context
+        ))
     }
 
 
@@ -292,5 +306,8 @@ class MainActivity : FlutterActivity() {
 
         sharedPreferencesMethodChannel!!.setMethodCallHandler(null)
         sharedPreferencesMethodChannel = null
+
+        openSettingMethodChannel!!.setMethodCallHandler(null)
+        openSettingMethodChannel = null
     }
 }

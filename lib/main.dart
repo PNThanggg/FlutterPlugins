@@ -5,6 +5,7 @@ import 'connectivity_screen.dart';
 import 'device_info_screen.dart';
 import 'native_timezone_screen.dart';
 import 'network_info_screen.dart';
+import 'open_setting_screen.dart';
 import 'package_info_screen.dart';
 import 'sensor_screen.dart';
 import 'share_screen.dart';
@@ -113,6 +114,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(builder: (context) => const SmsScreen()));
                   },
                   child: const Text("Sms")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const OpenSettingScreen()));
+                  },
+                  child: const Text("Open setting")),
             ],
           ),
         ),
