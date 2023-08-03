@@ -11,6 +11,7 @@ class NativeTimezoneScreen extends StatefulWidget {
 
 class _NativeTimezoneScreenState extends State<NativeTimezoneScreen> {
   String _timezone = 'Unknown';
+  String _offset = 'Offset';
   List<String> _availableTimezones = <String>[];
 
   @override
@@ -21,7 +22,8 @@ class _NativeTimezoneScreenState extends State<NativeTimezoneScreen> {
 
   Future<void> _initData() async {
     try {
-      _timezone = await NativeTimezone.getLocalTimezone();
+      _timezone = "${await NativeTimezone.getLocalTimezone()} ${await NativeTimezone.getDisplayName()}";
+      _offset = await NativeTimezone.getOffset();
     } catch (e) {
       debugPrint('Could not get the local timezone');
     }
@@ -47,6 +49,7 @@ class _NativeTimezoneScreenState extends State<NativeTimezoneScreen> {
       body: Column(
         children: <Widget>[
           Text('Local timezone: $_timezone\n'),
+          Text('Local offset: $_offset\n'),
           const Text('Available timezones: '),
           Expanded(
             child: ListView.builder(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'battery_screen.dart';
 import 'connectivity_screen.dart';
 import 'device_info_screen.dart';
+import 'logcat_screen.dart';
 import 'native_timezone_screen.dart';
 import 'network_info_screen.dart';
 import 'open_setting_screen.dart';
@@ -120,6 +121,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(builder: (context) => const OpenSettingScreen()));
                   },
                   child: const Text("Open setting")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const LogcatScreen()));
+                  },
+                  child: const Text("Logcat")),
             ],
           ),
         ),

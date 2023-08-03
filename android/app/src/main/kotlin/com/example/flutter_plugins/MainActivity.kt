@@ -10,6 +10,7 @@ import com.example.flutter_plugins.connectovity.Connectivity
 import com.example.flutter_plugins.connectovity.ConnectivityBroadcastReceiver
 import com.example.flutter_plugins.connectovity.ConnectivityMethodCallHandler
 import com.example.flutter_plugins.device_info.DeviceInfoMethodCallHandler
+import com.example.flutter_plugins.logcat.LogcatMethodCallHandle
 import com.example.flutter_plugins.native_timezone.NativeTimezoneMethodCallHandler
 import com.example.flutter_plugins.network_info.NetworkInfoMethodCallHandler
 import com.example.flutter_plugins.open_setting.OpenSettingMethodCallHandler
@@ -61,6 +62,8 @@ class MainActivity : FlutterActivity() {
 
     private var openSettingMethodChannel: MethodChannel? = null
 
+    private var logcatMethodChannel: MethodChannel ?= null
+
     companion object {
         private const val SENSOR_ACCELEROMETER_EVENT_CHANNEL =
             "com.example.flutter_plugins/sensors/accelerometer"
@@ -97,6 +100,8 @@ class MainActivity : FlutterActivity() {
             "com.example.flutter_plugins/shared_preferences"
 
         private const val OPEN_SETTING_CHANNEL_NAME = "open_settings"
+
+        private const val LOGCAT_CHANNEL_NAME = "logcat"
     }
 
     override fun getTransparencyMode(): TransparencyMode {
@@ -262,6 +267,13 @@ class MainActivity : FlutterActivity() {
         openSettingMethodChannel!!.setMethodCallHandler(OpenSettingMethodCallHandler(
             context = context
         ))
+
+        // Logcat
+        logcatMethodChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            LOGCAT_CHANNEL_NAME
+        )
+        logcatMethodChannel!!.setMethodCallHandler(LogcatMethodCallHandle())
     }
 
 
@@ -309,5 +321,8 @@ class MainActivity : FlutterActivity() {
 
         openSettingMethodChannel!!.setMethodCallHandler(null)
         openSettingMethodChannel = null
+
+        logcatMethodChannel!!.setMethodCallHandler(null)
+        logcatMethodChannel = null
     }
 }

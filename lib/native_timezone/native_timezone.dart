@@ -31,4 +31,24 @@ class NativeTimezone {
 
     return availableTimezones;
   }
+
+  static Future<String> getDisplayName() async {
+    final String? displayName = await _channel.invokeMethod("getDisplayName");
+
+    if (displayName == null) {
+      throw ArgumentError("Invalid return from platform getDisplayName()");
+    }
+
+    return displayName;
+  }
+
+  static Future<String> getOffset() async {
+    final String? offset = await _channel.invokeMethod<String>("getOffset");
+
+    if (offset == null) {
+      throw ArgumentError("Invalid return from platform getOffset()");
+    }
+
+    return offset;
+  }
 }
